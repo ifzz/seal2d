@@ -8,6 +8,20 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 
+#ifndef luaL_newlib /* using LuaJIT */
+/*
+ ** set functions from list 'l' into table at top - 'nup'; each
+ ** function gets the 'nup' elements at the top as upvalues.
+ ** Returns with only the table at the stack.
+ */
+LUALIB_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);
+
+#define luaL_newlibtable(L,l) \
+lua_createtable(L, 0, sizeof(l)/sizeof((l)[0]) - 1)
+
+#define luaL_newlib(L,l)  (luaL_newlibtable(L,l), luaL_setfuncs(L,l,0))
+#endif
+
 struct game {
     lua_State* lstate;
     SDL_Window* window;

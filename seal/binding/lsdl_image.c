@@ -1,7 +1,4 @@
-#include "lauxlib.h"
-
-#include "SDL.h"
-#include "SDL_image.h"
+#include "seal.h"
 
 int lsdl_image_load(lua_State* L) {
     const char* file_name = lua_tostring(L, 1);

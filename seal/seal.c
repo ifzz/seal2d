@@ -1,6 +1,22 @@
 #include "seal.h"
 #include "lopen.h"
 
+void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
+    #ifdef luaL_checkversion
+    luaL_checkversion(L);
+    #endif
+    luaL_checkstack(L, nup, "too many upvalues");
+    for (; l->name != NULL; l++) {  /* fill the table with given functions */
+        int i;
+        for (i = 0; i < nup; i++)  /* copy upvalues to the top */
+            lua_pushvalue(L, -nup);
+            lua_pushcclosure(L, l->func, nup);  /* closure with those upvalues */
+            lua_setfield(L, -(nup + 2), l->name);
+            }
+    lua_pop(L, nup);  /* remove upvalues */
+}
+
+
 extern void luaopen_lua_extensions(lua_State *L);
 
 #define TRACE_BACK_FUNC_INDEX 1
@@ -12,30 +28,30 @@ struct game* GAME = NULL;
 
 int seal_call(lua_State *L, int n, int r) {
     int err = lua_pcall(L, n, r, TRACE_BACK_FUNC_INDEX);
-    switch(err) {
-        case LUA_OK:
-            break;
-        case LUA_ERRRUN:
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRRUN : %s\n", lua_tostring(L,-1));
-            SDL_assert(SDL_FALSE);
-            break;
-        case LUA_ERRMEM:
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRMEM : %s\n", lua_tostring(L,-1));
-            SDL_assert(SDL_FALSE);
-            break;
-        case LUA_ERRERR:
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRERR : %s\n", lua_tostring(L,-1));
-            SDL_assert(SDL_FALSE);
-            break;
-        case LUA_ERRGCMM:
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRGCMM : %s\n", lua_tostring(L,-1));
-            SDL_assert(SDL_FALSE);
-            break;
-        default:
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!Unknown Lua error: %d\n", err);
-            SDL_assert(SDL_FALSE);
-            break;
-    }
+//    switch(err) {
+//        case LUA_OK:
+//            break;
+//        case LUA_ERRRUN:
+//            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRRUN : %s\n", lua_tostring(L,-1));
+//            SDL_assert(SDL_FALSE);
+//            break;
+//        case LUA_ERRMEM:
+//            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRMEM : %s\n", lua_tostring(L,-1));
+//            SDL_assert(SDL_FALSE);
+//            break;
+//        case LUA_ERRERR:
+//            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRERR : %s\n", lua_tostring(L,-1));
+//            SDL_assert(SDL_FALSE);
+//            break;
+//        case LUA_ERRGCMM:
+//            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!LUA_ERRGCMM : %s\n", lua_tostring(L,-1));
+//            SDL_assert(SDL_FALSE);
+//            break;
+//        default:
+//            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "!Unknown Lua error: %d\n", err);
+//            SDL_assert(SDL_FALSE);
+//            break;
+//    }
     return err;
 }
 
@@ -69,7 +85,7 @@ void seal_init() {
     
     // SDL core modules
     SDL_Window* window = SDL_CreateWindow(app_name, 0, 0,
-                                          GAME->window_width, GAME->window_height, SDL_WINDOW_ALLOW_HIGHDPI);
+                                          GAME->window_width, GAME->window_height, 0);
     if(!window) {
         SDL_LogError(SDL_LOG_CATEGORY_ASSERT, "window craete failed.\n");
         exit(1);

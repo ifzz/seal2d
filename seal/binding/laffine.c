@@ -1,5 +1,5 @@
 #include "math/affine.h"
-#include "lopen.h"
+#include "seal.h"
 
 static struct affine* self(lua_State* L, int index) {
     struct affine* af = lua_touserdata(L, index);

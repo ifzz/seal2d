@@ -35,9 +35,10 @@ function test.sprite()
 
 	local root = sprite.new_container{ width = WINDOW_WIDTH, height = WINDOW_HEIGHT }
 
-	local total_ball = 500
+	local total_ball = 1500
 	for i = 1, total_ball do
-		local b = ball.new(math.random(0, 200), math.random(0, 200), {x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/2, frame_name = "smile.png"})
+		local b = ball.new(math.random(0, 200), math.random(0, 200), 
+				{x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/2, frame_name = "smile.png"})
 		root:add_child(b)
 	end
 

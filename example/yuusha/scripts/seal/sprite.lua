@@ -327,13 +327,13 @@ function sprite:stop_all_actions()
 
 function sprite:set_zorder(zorder)
 	if zorder ~= self:get_zorder() then
-		self.__zorder = zorder << ZORDER_SHIFT + self.arrive_order
+		self.__zorder = zorder * (2^16) + self.arrive_order
 		self.__sort_child = true
 	end
 end
 
 function sprite:get_zorder()
-	return self.__zorder >> ZORDER_SHIFT
+	return self.__zorder / (2^16)
 end
 
 local function sort_child(self)

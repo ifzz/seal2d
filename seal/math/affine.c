@@ -1,4 +1,5 @@
 #include "SDL.h"
+#include "seal.h"
 #include "affine.h"
 
 struct affine* af_alloc() {

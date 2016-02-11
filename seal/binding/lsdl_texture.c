@@ -1,7 +1,4 @@
-#include "lauxlib.h"
-
-#include "SDL.h"
-#include "SDL_image.h"
+#include "seal.h"
 
 // usage: sdl_texture.load(file_name, render)
 int lsdl_texture_load(lua_State* L) {

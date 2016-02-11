@@ -1,5 +1,3 @@
-#include "lauxlib.h"
-
 #include "seal.h"
 
 extern struct game* GAME;
