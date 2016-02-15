@@ -91,6 +91,8 @@ end
 local function draw_image(self)
 	local frame = self.frame
 	local rect = frame.rect
+    frame.rect.y = math.floor(frame.rect.y + 0.5)
+    frame.rect.y = math.floor(frame.rect.y + 0.5)
 
 	if self.__fast_draw then
 		sdl_render.draw(frame.texture.__cobj,

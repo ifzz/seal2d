@@ -14,6 +14,9 @@ int main(int argc, char *argv[]) {
     Uint32 now = 0;
     Sint32 dt = 16;
     while (running) {
+        Uint32 tmp = last;
+        last = SDL_GetTicks();
+        SDL_Log("time:%u", last - tmp);
         while (SDL_PollEvent(&event) != 0) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -23,18 +26,11 @@ int main(int argc, char *argv[]) {
                     break;
             }
         }
-        
-        now = SDL_GetTicks();
-        
-        dt = now - last;
+        seal_update(dt);
+        seal_draw();
 
-        dt = dt > 0 ? dt : 0;
-        if (dt > 0) {
-            seal_update(dt);
-            seal_draw();
-        }
-        
-        last = now;
+        now = SDL_GetTicks();
+        dt = now - last;
         if (dt < interval) {
             SDL_Delay(interval - dt);
         }

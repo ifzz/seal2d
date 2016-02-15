@@ -23,7 +23,7 @@ function ball:update(dt)
 		self.vy = -self.vy
 		y = y - dy
 	end
-	self:set_pos( math.floor(x+0.5), math.floor(y+0.5))
+	self:set_pos(x, y)
 
 end
 
@@ -37,7 +37,7 @@ function test.sprite()
 	local root = sprite.new_container{ width = WINDOW_WIDTH, height = WINDOW_HEIGHT }
 			math.randomseed(os.time())
 
-	local total_ball = 500
+	local total_ball = 50
 	for i = 1, total_ball do
 		local b = ball.new(math.random(-100, 100), math.random(-100, 100), {x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/2, frame_name = "smile.png"})
 		-- local b = ball.new(5, 3, {x = 30, y = 30, frame_name = "smile.png"})

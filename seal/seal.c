@@ -230,8 +230,8 @@ void seal_update(float dt) {
     ++frames;
     if (frames == 60) {
         frames = 0;
-//        printf("fps = %.2f\n", fps);
     }
+    SDL_Log("fps = %.2f\n", fps);
     
     lua_State* L = GAME->lstate;
 
