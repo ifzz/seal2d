@@ -23,7 +23,7 @@ function ball:update(dt)
 		self.vy = -self.vy
 		y = y - dy
 	end
-	self:set_pos(x, y)
+	self:set_pos( math.floor(x+0.5), math.floor(y+0.5))
 
 end
 

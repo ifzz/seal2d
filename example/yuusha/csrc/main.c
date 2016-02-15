@@ -27,15 +27,15 @@ int main(int argc, char *argv[]) {
         now = SDL_GetTicks();
         
         dt = now - last;
+
         dt = dt > 0 ? dt : 0;
-        last = now;
         if (dt > 0) {
             seal_update(dt);
             seal_draw();
         }
         
-        
-        if (dt > 0 && dt < interval) {
+        last = now;
+        if (dt < interval) {
             SDL_Delay(interval - dt);
         }
     }
